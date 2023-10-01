@@ -1,0 +1,10 @@
+# nth: a Python module to determine the ordinal, or "nth" of a number.
+
+Can be imported as a module or run in stand-alone mode.
+
+Usage:
+    nth(n)
+
+    n: integer 
+    
+    returns string "nth"

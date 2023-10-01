@@ -1,11 +1,12 @@
-"""a module to return the string ordinal (nth) of a number.
+""" a Python module to determine the ordinal of a number.
 
-Can be included as a module or run as a stand-alone for testing.
+Can be imported as a module or run in stand-alone mode.
 
 Usage:
     nth(n)
 """
 
+# ordinal dictionary for ones and tens places
 ordinal = {
     0: "zeroth",
     1: "first",
@@ -38,17 +39,30 @@ ordinal = {
     100: "hundredth",
 }
 
+# TODO: add dict for cardinal segments while n >= 100
+
 def nth(n: int) -> str:
-    """ a function to return the ordinal word for "nth" of any number """
+    """ return string ordinal for "nth" of any integer 
+    
+    usage: nth(n)
+
+    n: integer 
+    
+    returns string "nth"
+    """
+    
+    # check for and strip negative as needed
     if n < 0:
         neg = "negative "
         n = -n
     else:
         neg = ""
 
+    # get 10th 20th 30th etc from dict
     if n % 10 == 0 and n <= 100:
         num=ordinal[n]
     
+    # generate strings for numbers in tens position
     elif n < 20:
         num=ordinal[n]
     elif n < 30:
@@ -67,7 +81,12 @@ def nth(n: int) -> str:
         num="eighty-"+ordinal[n%10]
     elif n < 100:
         num="ninety-"+ordinal[n%10]
-    # TODO: Keep going!
+
+# TODO: generate nths for 100s and 1000s 
+
+# TODO: generate nths for n <= sys.maxsize
+    
+# but for now just use numerals for big nths
     else:
         if n % 10 == 1:
             num=str(n)+"st"
@@ -78,13 +97,15 @@ def nth(n: int) -> str:
         else:
             num=str(n)+"th"
     
+    # put the negative sign back if ever it was
     return neg+num
 
 def main():
     number=None
     while number != "done":
-        # FIXME: 'done' just crashes the program, which also works
+        # FIXME: santize input
         number=int(input("Enter a number, or 'done': "))
+        # BUG: ValueError for non-integer user input
         print(f"the ordinal of {number} is {(nth(number))}")
     
 
