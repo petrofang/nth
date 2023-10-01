@@ -37,18 +37,26 @@ ordinal = {
     80: "eightieth",
     90: "ninetieth",
     100: "hundredth",
+    1000: "thousandth",
 }
 
-# TODO: add dict for cardinal segments while n >= 100
+cardinal = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+}
+
 
 def nth(n: int) -> str:
     """ return string ordinal for "nth" of any integer 
     
     usage: nth(n)
-
-    n: integer 
-    
-    returns string "nth"
     """
     
     # check for and strip negative as needed
@@ -59,7 +67,7 @@ def nth(n: int) -> str:
         neg = ""
 
     # get 10th 20th 30th etc from dict
-    if n % 10 == 0 and n <= 100:
+    if n % 10 == 0 and n <= 1000:
         num=ordinal[n]
     
     # generate strings for numbers in tens position
@@ -81,8 +89,10 @@ def nth(n: int) -> str:
         num="eighty-"+ordinal[n%10]
     elif n < 100:
         num="ninety-"+ordinal[n%10]
+    elif n < 1000:
+        num=f"{cardinal[n // 100]}-hundred {nth(n % 100)}"
 
-# TODO: generate nths for 100s and 1000s 
+# TODO: generate nths for 1000s to millions
 
 # TODO: generate nths for n <= sys.maxsize
     
