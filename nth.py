@@ -90,6 +90,7 @@ def nth(n: int) -> str:
     elif digits < 4: num = _sub1000(n)
     elif digits < 7: num = _subMillion(n)
     elif digits < 10: num= _subBillion(n)
+    elif digits < 13: num= _subTrillion(n)
     else: num = _overMax(n)
 
     # put the negative sign back if ever it was
@@ -136,6 +137,13 @@ def _subBillion(n:int) -> str:
         num=f"{_cardinal(n // 1000000)}-millionth"
     else:
         num = _cardinal(n//1000000) + "-million " + nth(n % 1000000)
+    return num
+
+def _subTrillion(n:int) -> str:
+    if n % 1000000000 == 0:
+        num=f"{_cardinal(n // 1000000000)}-billionth"
+    else:
+        num = _cardinal(n//1000000000) + "-billion " + nth(n % 1000000000)
     return num
 
 def _cardinal(n: int) -> str:
