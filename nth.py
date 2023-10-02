@@ -98,11 +98,13 @@ def nth(n: int) -> str:
 
 def main():
     number=None
-    while number != "done":
-        # FIXME: santize input
-        number=int(input("Enter a number, or 'done': "))
-        # BUG: ValueError for non-integer user input
-        print(f"the ordinal of {number} is the {(nth(number))}")
+    while True:
+        try:
+            number=int(input("Enter a number, Ctrl-C to quit: "))
+            print(f"\nThe ordinal of {number:,} is the {(nth(number))}\n")
+        except:
+            # BUG: ValueError for non-integer user input
+            print("\n(an integer number)\n")
 
 def _sub100(n: int) -> str:
     # get 10th 20th 30th etc from dict
@@ -122,32 +124,32 @@ def _sub1000(n: int) -> str:
     if n % 100 == 0:
         num=f"{cardinal[n // 100]}-hundredth"
     else:
-        num=f"{cardinal[n // 100]}-hundred {nth(n % 100)}"
+        num=f"{cardinal[n // 100]}-hundred-{nth(n % 100)}"
     return num
 
 def _subMillion(n:int) -> str:
     if n % 1000 == 0:
         num=f"{_cardinal(n // 1000)}-thousandth"
     else:
-        num = _cardinal(n//1000) + "-thousand " + nth(n % 1000)
+        num = _cardinal(n//1000) + " thousand " + nth(n % 1000)
     return num
 
 def _subBillion(n:int) -> str:
     if n % 1000000 == 0:
         num=f"{_cardinal(n // 1000000)}-millionth"
     else:
-        num = _cardinal(n//1000000) + "-million " + nth(n % 1000000)
+        num = _cardinal(n//1000000) + " million " + nth(n % 1000000)
     return num
 
 def _subTrillion(n:int) -> str:
     if n % 1000000000 == 0:
         num=f"{_cardinal(n // 1000000000)}-billionth"
     else:
-        num = _cardinal(n//1000000000) + "-billion " + nth(n % 1000000000)
+        num = _cardinal(n//1000000000) + " billion " + nth(n % 1000000000)
     return num
 
 def _cardinal(n: int) -> str:
-    # return cardinal number < 1000 as string
+    # return cardinal 0 < number < 1000 as string
     # useful for numbers over 1000
     if n % 100 == 0: 
         num=f"{cardinal[n // 100]}-hundred"
@@ -168,7 +170,7 @@ def _overMax(n: int) -> str:
     if n % 10 == 1: num=str(n)+"st"
     elif n % 10 == 2: num=str(n)+"nd"
     elif n % 10 == 3: num=str(n)+"rd"
-    else: num=str(n)+"th"
+    else: num=f"{n:,}th"
     return num
 
 if __name__ == "__main__":
