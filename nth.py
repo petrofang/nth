@@ -89,6 +89,7 @@ def nth(n: int) -> str:
     if digits < 3: num = _sub100(n)
     elif digits < 4: num = _sub1000(n)
     elif digits < 7: num = _subMillion(n)
+    elif digits < 10: num= _subBillion(n)
     else: num = _overMax(n)
 
     # put the negative sign back if ever it was
@@ -124,9 +125,36 @@ def _sub1000(n: int) -> str:
     return num
 
 def _subMillion(n:int) -> str:
-    # TODO: complete this stub function
-    return _overMax(n)
+    if n % 1000 == 0:
+        num=f"{_cardinal(n // 1000)}-thousandth"
+    else:
+        num = _cardinal(n//1000) + "-thousand " + nth(n % 1000)
+    return num
 
+def _subBillion(n:int) -> str:
+    if n % 1000000 == 0:
+        num=f"{_cardinal(n // 1000000)}-millionth"
+    else:
+        num = _cardinal(n//1000000) + "-million " + nth(n % 1000000)
+    return num
+
+def _cardinal(n: int) -> str:
+    # return cardinal number < 1000 as string
+    # useful for numbers over 1000
+    if n % 100 == 0: 
+        num=f"{cardinal[n // 100]}-hundred"
+    elif n % 10 == 0: 
+        if n < 100: num=cardinal[n]
+        else:
+            num = _cardinal(n//100)+"-hundred-"+cardinal[n%100]
+    elif n < 20: 
+        num=cardinal[n]
+    elif n < 100: 
+        num=cardinal[(n // 10)*10]+"-"+cardinal[n%10]
+    else: 
+        num=f"{_cardinal(n // 100)}-hundred-{_cardinal(n % 100)}"
+
+    return num
 
 def _overMax(n: int) -> str:
     if n % 10 == 1: num=str(n)+"st"
