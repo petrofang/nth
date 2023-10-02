@@ -36,10 +36,9 @@ ordinal = {
     70: "seventieth",
     80: "eightieth",
     90: "ninetieth",
-    100: "hundredth",
-    1000: "thousandth",
 }
 
+# cardinal dictionary for ones and tens places
 cardinal = {
     1: "one",
     2: "two",
@@ -50,8 +49,25 @@ cardinal = {
     7: "seven",
     8: "eight",
     9: "nine",
+    10:"ten",
+    11:"eleven",
+    12:"twelve",
+    13:"thirteen",
+    14:"fourteen",
+    15:"fifteen",
+    16:"sixteen",
+    17:"seventeen",
+    18:"eighteen",
+    19:"nineteen",
+    20:"twenty",
+    30:"thirty",
+    40:"forty",
+    50:"fifty",
+    60:"sixty",
+    70:"seventy",
+    80:"eighty",
+    90:"ninety",
 }
-
 
 def nth(n: int) -> str:
     """ return string ordinal for "nth" of any integer 
@@ -66,47 +82,15 @@ def nth(n: int) -> str:
     else:
         neg = ""
 
-    # get 10th 20th 30th etc from dict
-    if n % 10 == 0 and n <= 1000:
-        num=ordinal[n]
-    
-    # generate strings for numbers in tens position
-    elif n < 20:
-        num=ordinal[n]
-    elif n < 30:
-        num="twenty-"+ordinal[n%10]
-    elif n < 40:
-        num="thirty-"+ordinal[n%10]    
-    elif n < 50:
-        num="forty-"+ordinal[n%10]
-    elif n < 60:
-        num="fifty-"+ordinal[n%10]
-    elif n < 70:
-        num="sixty-"+ordinal[n%10]
-    elif n < 80:
-        num="seventy-"+ordinal[n%10]
-    elif n < 90:
-        num="eighty-"+ordinal[n%10]
-    elif n < 100:
-        num="ninety-"+ordinal[n%10]
-    elif n < 1000:
-        num=f"{cardinal[n // 100]}-hundred {nth(n % 100)}"
+    # determine the length of the number:
+    digits=(len(str(n))) 
 
-# TODO: generate nths for 1000s to millions
+    # get the number's name by hundreds and thousands
+    if digits < 3: num = _sub100(n)
+    elif digits < 4: num = _sub1000(n)
+    elif digits < 7: num = _subMillion(n)
+    else: num = _overMax(n)
 
-# TODO: generate nths for n <= sys.maxsize
-    
-# but for now just use numerals for big nths
-    else:
-        if n % 10 == 1:
-            num=str(n)+"st"
-        elif n % 10 == 2:
-            num=str(n)+"nd"
-        elif n % 10 == 3:
-            num=str(n)+"rd"
-        else:
-            num=str(n)+"th"
-    
     # put the negative sign back if ever it was
     return neg+num
 
@@ -116,8 +100,40 @@ def main():
         # FIXME: santize input
         number=int(input("Enter a number, or 'done': "))
         # BUG: ValueError for non-integer user input
-        print(f"the ordinal of {number} is {(nth(number))}")
-    
+        print(f"the ordinal of {number} is the {(nth(number))}")
+
+def _sub100(n: int) -> str:
+    # get 10th 20th 30th etc from dict
+    if n % 10 == 0:
+        num=ordinal[n]
+
+    # get numbers under 20 from dict
+    elif n < 20:
+        num=ordinal[n]
+
+    # generate strings for numbers in tens position
+    else:
+        num=cardinal[(n // 10)*10]+"-"+ordinal[n%10]
+    return num     
+
+def _sub1000(n: int) -> str:
+    if n % 100 == 0:
+        num=f"{cardinal[n // 100]}-hundredth"
+    else:
+        num=f"{cardinal[n // 100]}-hundred {nth(n % 100)}"
+    return num
+
+def _subMillion(n:int) -> str:
+    # TODO: complete this stub function
+    return _overMax(n)
+
+
+def _overMax(n: int) -> str:
+    if n % 10 == 1: num=str(n)+"st"
+    elif n % 10 == 2: num=str(n)+"nd"
+    elif n % 10 == 3: num=str(n)+"rd"
+    else: num=str(n)+"th"
+    return num
 
 if __name__ == "__main__":
     main()
