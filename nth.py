@@ -69,6 +69,50 @@ cardinal = {
     90:"ninety",
 }
 
+# TODO: numbers up to a zillion
+# The English names for large numbers are taken 
+# from Latin names for small numbers n by adding 
+# the ending '-illion' as suggested by 'million.' 
+# Thus billion and trillion are from the Latin 
+# prefixes bi- (n = 2) and tri- (n = 3). In the 
+# US system for naming large numbers, the name
+# from the Latin number n applies to the number:
+#                             10**(3n+3)
+zillion = { # key = how many commas does it have
+    2: "m",
+    3: "b",
+    4: "tr",
+    5: "quadr",
+    6: "quint",
+    7: "sext",
+    8: "sept",
+    9: "oct",
+    10: "non",
+    11: "dec",
+    12: "undec",
+    13: "duodec",
+    14: "tredec",
+    15: "quattuordec",
+    16: "quindec",
+    17: "sexdec",
+    18: "septendec",
+    19: "octodec",
+    20: "novemdec",
+    21: "vigint",
+    22: "unvigint",
+    23: "duovigint",
+    24: "trevigint",
+    25: "quattuorvigint",
+    26: "quinvigint",
+    27: "sexvigint",
+    28: "septenvigint",
+    29: "octovigint",
+    30: "novemvint",
+    31: "trigint",
+    32: "unrigint",
+    33: "duotrigint",
+}
+
 def nth(n: int) -> str:
     """ return string ordinal for "nth" of any integer 
     
