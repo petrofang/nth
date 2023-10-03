@@ -102,9 +102,10 @@ def main():
     while True:
         try:
             number=int(input("Enter a number, Ctrl-C to quit: "))
-            print(f"\nThe ordinal of {number:,} is the {(nth(number))}\n")
+            # BUG: try/except precludes keyboard interrupt
+            print(f"\nThe ordinal of {number} is the {(nth(number))}\n")
         except:
-            # BUG: ValueError for non-integer user input
+            # FIXME: add handler for keyboard interrupt
             print("\n(an integer number)\n")
 
 def _sub100(n: int) -> str:
@@ -175,9 +176,11 @@ def _cardinal(n: int) -> str:
     return num
 
 def _overMax(n: int) -> str:
-    if n % 10 == 1: num=str(n)+"st"
-    elif n % 10 == 2: num=str(n)+"nd"
-    elif n % 10 == 3: num=str(n)+"rd"
+    # respond heuristically for numbers over the threshold.
+    # exceptions for 11, 12, 13 to avoid 11st 12nd 13rd 
+    if (n % 10 == 1) and (n % 100 != 11): num=f"{n:,}st"
+    elif (n % 10 == 2) and (n % 100 != 12): num=f"{n:,}nd"
+    elif (n % 10 == 3) and (n % 100 != 13): num=f"{n:,}rd"
     else: num=f"{n:,}th"
     return num
 
