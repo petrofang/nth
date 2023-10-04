@@ -77,7 +77,8 @@ cardinal = {
 # prefixes bi- (n = 2) and tri- (n = 3). In the 
 # US system for naming large numbers, the name
 # from the Latin number n applies to the number:
-#                             10**(3n+3)
+#               x = 10 ** ((3 * n) + 3)
+#               n = ((len(str(abs(x))) -1) / 3)
 zillion = { # key = how many commas does it have
     2: "m",
     3: "b",
@@ -120,12 +121,8 @@ def nth(n: int) -> str:
     usage: nth(n)
     """
     
-    # check for and strip negative as needed
-    if n < 0:
-        neg = "negative "
-        n = -n
-    else:
-        neg = ""
+    # handler for negative numbers
+    n, neg = _neg(n)
 
     # determine the length of the number:
     digits=(len(str(n))) 
@@ -136,11 +133,20 @@ def nth(n: int) -> str:
     elif digits < 7: num = _subMillion(n)
     elif digits < 10: num= _subBillion(n)
     elif digits < 13: num= _subTrillion(n)
-    elif digits < 100: num= _subQuad(n)
+#    elif digits < 100: num= _subQuad(n)
     else: num = _overMax(n)
 
-    # put the negative sign back if ever it was
     return neg+num
+
+def _neg(n: int):
+    # check for and strip negative as needed
+    if n < 0:
+        neg = "negative "
+        n = -n
+    else:
+        neg = ""
+    return n, neg
+
 
 def main():
     while True:
@@ -202,7 +208,8 @@ def _subQuad(n:int) -> str:
         num = f"{_cardinal(n // (10**tenToThe))} {zillion[nCommas]}illion " + nth(n % (10**(tenToThe-3)))
     return num
 
-# TODO: get cardinal number first, then add ordinal suffix       
+# TODO: get cardinal number first, then add ordinal suffix
+# TODO: generate cardinal numbers >= 1000       
 def _cardinal(n: int) -> str:
     # return cardinal 0 < number < 1000 as string
     # append with numbers over 1000
