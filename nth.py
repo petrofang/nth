@@ -111,6 +111,7 @@ zillion = { # key = how many commas does it have
     31: "trigint",
     32: "unrigint",
     33: "duotrigint",
+    # 34 commas is >= 10**100, a googol
 }
 
 def nth(n: int) -> str:
@@ -135,23 +136,20 @@ def nth(n: int) -> str:
     elif digits < 7: num = _subMillion(n)
     elif digits < 10: num= _subBillion(n)
     elif digits < 13: num= _subTrillion(n)
-    elif digits < 15: num= _subQuad(n)
+    elif digits < 100: num= _subQuad(n)
     else: num = _overMax(n)
 
     # put the negative sign back if ever it was
     return neg+num
 
 def main():
-    number=None
     while True:
         try:
             number=int(input("Enter a number, Ctrl-C to quit: "))
-            # BUG: try/except precludes keyboard interrupt
             print(f"\nThe ordinal of {number} is the {(nth(number))}\n")
-        except:
-            # FIXME: add handler for keyboard interrupt
+        except ValueError:
             print("\n(an integer number)\n")
-
+        
 def _sub100(n: int) -> str:
     # get 10th 20th 30th etc from dict
     if n % 10 == 0:
@@ -195,17 +193,23 @@ def _subTrillion(n:int) -> str:
     return num
 
 def _subQuad(n:int) -> str:
-    if n % (10**12) == 0:
-        num=f"{_cardinal(n // (10**12))}-trillionth"
-    else:
-        num = _cardinal(n//(10**12)) + " trillion " + nth(n % (10**12))
+    nCommas=int(len(str(n-1))//3)
+    tenToThe=nCommas*3
+    # BUG: inconsistent results for n > a trillion
+    if n % (10**(tenToThe)) == 0:
+        num = f"{_cardinal(n // (10**tenToThe))}-{zillion[nCommas]}illionth"
+    elif nCommas > 2: 
+        num = f"{_cardinal(n // (10**tenToThe))} {zillion[nCommas]}illion " + nth(n % (10**(tenToThe-3)))
     return num
-        
+
+# TODO: get cardinal number first, then add ordinal suffix       
 def _cardinal(n: int) -> str:
     # return cardinal 0 < number < 1000 as string
-    # useful for numbers over 1000
+    # append with numbers over 1000
     if n % 100 == 0: 
         num=f"{cardinal[n // 100]}-hundred"
+        # BUG: "zeroth" for   99,900,000,000,000
+        # BUG: exception for 999,000,000,000,000
     elif n % 10 == 0: 
         if n < 100: num=cardinal[n]
         else:
