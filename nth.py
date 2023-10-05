@@ -188,7 +188,7 @@ def _subTrillion(n:int) -> str:
     if n % 1000000000 == 0:
         num=f"{_cardinal(n // 1000000000)}-billionth"
     else:
-        num = f"{cardinal(n//1000000000)} billion {nth(n % 1000000000)}"
+        num = f"{_cardinal(n//1000000000)} billion {nth(n % 1000000000)}"
     return num
 
 def _subQuad(n:int) -> str:
