@@ -147,15 +147,6 @@ def _neg(n: int):
     else:
         neg = ""
     return n, neg
-
-
-def main():
-    while True:
-        try:
-            number=int(input("Enter a number, Ctrl-C to quit: "))
-            print(f"\nThe ordinal of {number} is the {(nth(number))}\n")
-        except ValueError:
-            print("\n(an integer number)\n")
         
 def _sub100(n: int) -> str:
     # get 10th 20th 30th etc from dict
@@ -242,5 +233,10 @@ def _overMax(n: int) -> str:
     return num
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            number=int(input("Enter a number, Ctrl-C to quit: "))
+            print(f"\nThe ordinal of {number} is the {(nth(number))}\n")
+        except ValueError:
+            print("\n(an integer number)\n")
 
