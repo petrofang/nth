@@ -126,6 +126,7 @@ def nth(n: int) -> str:
 
     # determine the length of the number:
     digits=(len(str(n))) 
+    # FIXME: use eg: Math.log10()
 
     # get the number's name by hundreds and thousands
     if digits < 3: num = _sub100(n)
@@ -185,17 +186,18 @@ def _subMillion(n:int) -> str:
     return num
 
 def _subBillion(n:int) -> str:
+    # TODO: use recursion of _cardinal and zillion[]
     if n % 1000000 == 0:
-        num=f"{_cardinal(n // 1000000)}-millionth"
+        num = f"{_cardinal(n//1000000)}-millionth"
     else:
-        num = _cardinal(n//1000000) + " million " + nth(n % 1000000)
+        num = f"{_cardinal(n//1000000)} million {nth(n % 1000000)}"
     return num
 
 def _subTrillion(n:int) -> str:
     if n % 1000000000 == 0:
         num=f"{_cardinal(n // 1000000000)}-billionth"
     else:
-        num = _cardinal(n//1000000000) + " billion " + nth(n % 1000000000)
+        num = f"{cardinal(n//1000000000)} billion {nth(n % 1000000000)}"
     return num
 
 def _subQuad(n:int) -> str:
