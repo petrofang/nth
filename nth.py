@@ -226,10 +226,10 @@ def _cardinal(n: int) -> str:
 def _overMax(n: int) -> str:
     # respond heuristically for numbers over the threshold.
     # exceptions for 11, 12, 13 to avoid 11st 12nd 13rd 
-    if (n % 10 == 1) and (n % 100 != 11): num=f"{n:,}st"
+    if   (n % 10 == 1) and (n % 100 != 11): num=f"{n:,}st"
     elif (n % 10 == 2) and (n % 100 != 12): num=f"{n:,}nd"
     elif (n % 10 == 3) and (n % 100 != 13): num=f"{n:,}rd"
-    else: num=f"{n:,}th"
+    else:                                   num=f"{n:,}th"
     return num
 
 if __name__ == "__main__":
